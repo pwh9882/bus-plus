@@ -1,4 +1,5 @@
 import "components/App.css";
+import AppRouter from "routes/Router";
 
 function App() {
   return (
@@ -6,6 +7,7 @@ function App() {
       <header className="App-header">
         <h1>bus-plus</h1>
       </header>
+      <AppRouter />
     </div>
   );
 }
