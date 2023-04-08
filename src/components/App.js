@@ -27,7 +27,11 @@ function App() {
       <header className="App-header">
         <h1>bus-plus</h1>
       </header>
-      {init ? <AppRouter isLoggedIn={isLoggedIn} /> : <h1>loading...</h1>}
+      {init ? (
+        <AppRouter isLoggedIn={isLoggedIn} user={user} />
+      ) : (
+        <h1>loading...</h1>
+      )}
     </div>
   );
 }
