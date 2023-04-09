@@ -10,6 +10,15 @@ const Navigation = ({ user }) => {
         <li>
           <Link to={"/profile"}>{user.displayName}'s Profile</Link>
         </li>
+        <li>
+          <Link to={"/search"}>Search</Link>
+        </li>
+        <li>
+          <Link to={"/bus-route-detail"}>Bus Route Detail</Link>
+        </li>
+        <li>
+          <Link to={"/station-detail"}>Station Detail</Link>
+        </li>
       </ul>
     </nav>
   );
