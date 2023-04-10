@@ -1,4 +1,5 @@
 import { authService } from "FirebaseApp";
+import "css/Auth.css";
 import {
   GithubAuthProvider,
   GoogleAuthProvider,
@@ -23,13 +24,21 @@ const Auth = () => {
 
   return (
     <div>
-      <h1>AUTH</h1>
-
-      <div>
-        <button onClick={onSocialClick} name="google">
+      <h1>Bus-plus에 어서 오세요</h1>
+      <h2>원하시는 기능으로 로그인 해주세요</h2>
+      <div className="social-login-list">
+        <button
+          className="social-login-button"
+          onClick={onSocialClick}
+          name="google"
+        >
           Continue with Google
         </button>
-        <button onClick={onSocialClick} name="github">
+        <button
+          className="social-login-button"
+          onClick={onSocialClick}
+          name="github"
+        >
           Continue with Github
         </button>
       </div>

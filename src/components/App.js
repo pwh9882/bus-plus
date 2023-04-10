@@ -1,5 +1,5 @@
 import { authService } from "FirebaseApp";
-import "components/App.css";
+import "css/App.css";
 import AppRouter from "components/Router";
 import { onAuthStateChanged } from "firebase/auth";
 import { useEffect, useState } from "react";
@@ -32,6 +32,7 @@ function App() {
       ) : (
         <h1>loading...</h1>
       )}
+      {/* <footer>Foot</footer> */}
     </div>
   );
 }

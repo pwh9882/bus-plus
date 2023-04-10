@@ -1,0 +1,13 @@
+ul, li {
+    list-style: none;
+    padding-inline-start: 0;
+
+}
+.top-bar {
+    display: flex;
+}
+
+.search-botton {
+    flex: 1;
+    border: 1px solid black;
+}

@@ -1,5 +1,11 @@
 .App {
   text-align: center;
+  /* margin: 0 100px; */
+  border: 1px solid black;
+  height: 100vh;
+  background-color:whitesmoke;
+  /* max-width: 500px;
+  min-width: 400px; */
 }
 
 .App-logo {
@@ -15,7 +21,8 @@
 
 .App-header {
   background-color: #282c34;
-  /* min-height: 100vh; */
+  /* min-height: 10vh; */
+  /* height: 60px; */
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -36,3 +43,12 @@
     transform: rotate(360deg);
   }
 }
+
+a {
+  text-decoration: black;
+  color: #000;
+}
+/* footer {
+  position : fixed;
+  bottom : 0;
+} */
