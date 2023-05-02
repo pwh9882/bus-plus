@@ -4,8 +4,8 @@
   border: 1px solid black;
   height: 100vh;
   background-color:whitesmoke;
-  /* max-width: 500px;
-  min-width: 400px; */
+  max-width: 500px;
+  margin: 0 auto;
 }
 
 .App-logo {
@@ -47,8 +47,14 @@
 a {
   text-decoration: black;
   color: #000;
+  /* border: 1px solid black; */
 }
 /* footer {
   position : fixed;
   bottom : 0;
 } */
+
+.App-router {
+  padding: 10px;
+  /* background-color: black; */
+}

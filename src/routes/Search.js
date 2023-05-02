@@ -12,6 +12,7 @@ const Search = () => {
         <button onClick={onCencelClicked}>X</button>
         <input type="text" placeholder="버스 또는 정류장 검색" />
       </div>
+      <h1>Search</h1>
     </>
   );
 };

@@ -11,3 +11,11 @@ ul, li {
     flex: 1;
     border: 1px solid black;
 }
+
+.top-bar > a {
+    border-radius: 15px;
+    padding: 5px 12px;
+    margin: 0 2px;
+    background-color: #282c34;
+    color: white;
+}

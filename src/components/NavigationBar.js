@@ -11,16 +11,9 @@ const NavigationBar = ({ user }) => {
         <Link className="search-botton" to={"/search"}>
           <div>버스 또는 정류장 검색</div>
         </Link>
-        <Link to={"/profile"}>{user.displayName}'s Profile</Link>
+        <Link to={"/profile"}>Profile</Link>
       </ul>
-      <ul>
-        <li>
-          <Link to={"/bus-route-detail"}>Bus Route Detail</Link>
-        </li>
-        <li>
-          <Link to={"/station-detail"}>Station Detail</Link>
-        </li>
-      </ul>
+      <ul></ul>
     </nav>
   );
 };

@@ -28,7 +28,9 @@ function App() {
         <h1>bus-plus</h1>
       </header>
       {init ? (
-        <AppRouter isLoggedIn={isLoggedIn} user={user} />
+        <div className="App-router">
+          <AppRouter isLoggedIn={isLoggedIn} user={user} />
+        </div>
       ) : (
         <h1>loading...</h1>
       )}
