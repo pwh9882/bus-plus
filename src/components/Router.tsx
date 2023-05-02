@@ -12,8 +12,14 @@ import NavigationBar from "./NavigationBar";
 import Search from "routes/Search";
 import BusRouteDetail from "routes/BusRouteDetail";
 import StationDetail from "routes/StationDetail";
+import { User } from "firebase/auth";
 
-const AppRouter = ({ isLoggedIn, user }) => {
+interface Props {
+  isLoggedIn: boolean,
+  user: User|null
+}
+
+const AppRouter = ({ isLoggedIn, user }: Props) => {
   return (
     <Router>
       {/* <header></header> */}
@@ -22,14 +28,14 @@ const AppRouter = ({ isLoggedIn, user }) => {
       <Routes>
         {isLoggedIn ? (
           <>
-            <Route exact path="/" element={<Home />} />
-            <Route exact path="/search" element={<Search />} />
+            <Route  path="/" element={<Home />} />
+            <Route  path="/search" element={<Search />} />
             <Route path="/profile" element={<Profile />} />
             <Route path="/bus-route-detail" element={<BusRouteDetail />} />
             <Route path="/station-detail" element={<StationDetail />} />
           </>
         ) : (
-          <Route exact path="/" element={<Auth />} />
+          <Route  path="/" element={<Auth />} />
         )}
 
         <Route path="*" element={<Navigate to={"/"} replace={true} />} />

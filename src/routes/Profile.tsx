@@ -1,7 +1,9 @@
 import { authService } from "FirebaseApp";
 import {
+  AuthProvider,
   GithubAuthProvider,
   GoogleAuthProvider,
+  User,
   deleteUser,
   reauthenticateWithPopup,
 } from "firebase/auth";
@@ -15,9 +17,9 @@ const Profile = () => {
   };
 
   const onDeleteAccountClicked = async () => {
-    const user = authService.currentUser;
+    const user: User = authService.currentUser!;
     const providerId = user.providerData[0].providerId;
-    let provider;
+    let provider: AuthProvider;
     if (providerId === "google.com") {
       provider = new GoogleAuthProvider();
     }
@@ -26,10 +28,10 @@ const Profile = () => {
     }
 
     // if(result )
-    await reauthenticateWithPopup(user, provider)
+    await reauthenticateWithPopup(user, provider!)
       .then(async () => {
         console.log(" // User re-authenticated.");
-        // User re-authenticated.
+        // User re-authenti!cated.
         await deleteUser(user)
           .then(() => {
             navigate("/");

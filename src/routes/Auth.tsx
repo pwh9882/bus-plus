@@ -1,25 +1,31 @@
 import { authService } from "FirebaseApp";
 import "css/Auth.css";
 import {
+  AuthProvider,
   GithubAuthProvider,
   GoogleAuthProvider,
   signInWithPopup,
 } from "firebase/auth";
+import { MouseEvent } from "react";
 
 const Auth = () => {
-  const onSocialClick = async (event) => {
-    const {
-      target: { name },
-    } = event;
-    console.log(name);
-    let provider;
+  const onSocialClick = async (event: MouseEvent<HTMLButtonElement>) => {
+    // const {
+    //   target : { name },
+    // } = event;
+    // console.log(name);
+    const target = event.target as HTMLButtonElement;
+    const name = target.name;
+    let provider: AuthProvider;
     if (name === "google") {
       provider = new GoogleAuthProvider();
+      await signInWithPopup(authService, provider);
     }
     if (name === "github") {
       provider = new GithubAuthProvider();
+      await signInWithPopup(authService, provider);
     }
-    await signInWithPopup(authService, provider);
+    
   };
 
   return (
