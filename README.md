@@ -12,8 +12,10 @@ bus-plus는 제작자가 평소 원했던 추가적인 버스도착정보 어플
 
 ## 구현 순서
 
-1. 기본적 유저 로그인 시스템 구현 - google firebase 이용.
+1. 기본적 유저 로그인 시스템 구현 - google firebase 이용. ✅
 
 2. api를 이용해 기존 버스도착정보 어플 기능 구현
+    2-1. stationDetail
+    2-2. busRouteDetail
 
 3. bus-plus만의 기능 구현
