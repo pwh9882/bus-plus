@@ -10,10 +10,12 @@ import "css/BusRouteDetail.css";
 const BusRouteDetail = () => {
   const location = useLocation();
   const busRouteId = location.state.busRouteId;
-  const [fetchData, setFetchData] = useState<any | null>("");
+  const stationId = location.state.stationId;
+  console.log("stationId: "+ stationId);
+    
   const [stationList, setStationList] = useState<Array<any>>([]);
   const getBusRouteList = async () => {
-    console.log(busRouteId);
+    console.log("busRouteId: "+ busRouteId);
     
     const routeStationList = await getStaionByRoute(busRouteId);
     // const routeStationList = routeSatationListsDummy;
@@ -60,7 +62,11 @@ const BusRouteDetail = () => {
         <div className="busRouteInfo-RouteList">{
           stationList.map((station) => {
             const key = station.arsId[0];
-            return <RouteStationDetailCard key={key} RouteStationInfo={station}/>;
+            if(key===stationId){
+              console.log(station);
+              // return <RouteStationDetailCard key={key} RouteStationInfo={station}/>;
+            } 
+            return <RouteStationDetailCard key={key} highlightFlag={key===stationId} RouteStationInfo={station}/>;
           })}
         </div>
         

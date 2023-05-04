@@ -47,6 +47,7 @@ const StationDetail = () => {
   
   return (
     <>
+      <h1>StationDetail</h1>
       <h4>{uid}</h4>
       
       {stationInfo.length === 0 ? <h1>StationDetail</h1> : <h2>{stationInfo[0]?.stNm[0]}</h2>}

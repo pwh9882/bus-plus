@@ -14,7 +14,9 @@
     font-size: 20px;
     font-weight: 600;
 }
-
+.highlight{
+    background-color: tomato;
+}
 /* .station-infos{
     display: flex;
 } */
