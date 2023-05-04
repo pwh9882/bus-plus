@@ -1,0 +1,12 @@
+.busRouteInfo{
+    /* background-color: black; */
+    display: flex;
+}
+.busRouteInfo-RouteList{
+    flex: 1;
+}
+.busRouteInfo-busPosList{
+    width: 60px;
+    /* background-color: black; */
+    border: 1px solid tomato;
+}

@@ -1,21 +1,33 @@
+import { getBusPosByRouteSt } from "busApi/busPos/getBusPosByRtid";
+import { getRouteInfoItem } from "busApi/busRouteInfo/getRouteInfoItem";
 import { getStaionByRoute } from "busApi/busRouteInfo/getStationByRoute";
 import RouteStationDetailCard from "components/RouteStationDetailCard";
+import { routeSatationListsDummy } from "dummyDatas/routeSatationListsDummy";
 import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
+import "css/BusRouteDetail.css";
 
 const BusRouteDetail = () => {
   const location = useLocation();
+  const busRouteId = location.state.busRouteId;
   const [fetchData, setFetchData] = useState<any | null>("");
   const [stationList, setStationList] = useState<Array<any>>([]);
   const getBusRouteList = async () => {
-    const busRouteId = location.state.busRouteId;
-
-    const data = await getStaionByRoute(busRouteId);
-    console.log(data);
-    setStationList(data);
+    console.log(busRouteId);
+    
+    const routeStationList = await getStaionByRoute(busRouteId);
+    // const routeStationList = routeSatationListsDummy;
+    // console.log(routeStationList);
+    
+    const busPosRouteList = await getBusPosByRouteSt(busRouteId, routeStationList.length);
+    // console.log(busPosRouteList);
+    
+    setStationList(routeStationList);
   };
 
   useEffect(() => {
+    // console.log(getRouteInfoItem(busRouteId));
+    
     getBusRouteList();
 
     // 컴포넌트가 마운트될 때 실행되는 함수
@@ -36,12 +48,22 @@ const BusRouteDetail = () => {
   return (
     <>
       <h1>BusRouteDetail</h1>
-      <h2>110B 국민대</h2>
-      <div>{
-        stationList.map((station) => {
-          const key = station.arsId[0];
-          return <RouteStationDetailCard key={key} RouteStationInfo={station}/>;
-        })}
+      <h2>{stationList[0]?.busRouteNm[0]}</h2>
+      <div className="busRouteInfo">
+        <div className="busRouteInfo-busPosList">{
+          stationList.map((station)=>{
+            
+            return <div key={station.arsId[0]} style={{height:"74px"}}>a</div>;
+          })
+        }
+        </div>
+        <div className="busRouteInfo-RouteList">{
+          stationList.map((station) => {
+            const key = station.arsId[0];
+            return <RouteStationDetailCard key={key} RouteStationInfo={station}/>;
+          })}
+        </div>
+        
       </div>
     </>
   );
