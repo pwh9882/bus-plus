@@ -37,7 +37,6 @@ const BusRouteDetail = () => {
     
     getBusRouteList();
     
-
     // 컴포넌트가 마운트될 때 실행되는 함수
     const timer = setInterval(() => {
       // 5초마다 실행되는 타이머
