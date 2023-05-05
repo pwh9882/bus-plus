@@ -6,14 +6,20 @@ import { routeSatationListsDummy } from "dummyDatas/routeSatationListsDummy";
 import { useEffect, useRef, useState } from "react";
 import { useLocation } from "react-router-dom";
 import "css/BusRouteDetail.css";
+import { addDoc, collection, deleteDoc, getDocs, onSnapshot, query, where } from "firebase/firestore";
+import { dbService } from "FirebaseApp";
+import { User } from "firebase/auth";
 
 type StationRef = HTMLDivElement;
+interface Props{
+  user: User|null
+}
 
-
-const BusRouteDetail = () => {
+const BusRouteDetail = ({user}:Props) => {
   const location = useLocation();
   const busRouteId = location.state.busRouteId;
   const stationId = location.state.stationId;
+  const [isBookmarked, setIsBookmarked] = useState(false);
   // console.log("stationId: "+ stationId);
 
   const stationRef = useRef<StationRef>(null);
@@ -41,7 +47,7 @@ const BusRouteDetail = () => {
     // console.log(getRouteInfoItem(busRouteId));
     
     getBusRouteList();
-    
+    getIsBookmarked();
     // 컴포넌트가 마운트될 때 실행되는 함수
     const timer = setInterval(() => {
       // 5초마다 실행되는 타이머
@@ -89,15 +95,62 @@ const BusRouteDetail = () => {
     const stationDistance = bus.sectDist[0] / bus.fullSectDist[0];
     return (bus.sectOrd[0] / stationCount) * 100 + stationDistance;
   };
+
+  const isBookMarkedQuery = query(
+    collection(dbService, "routeBookmarks"),
+    where("bookmarkerId", "==", user?.uid),
+    where("bookmarkedRouteId", "==", busRouteId)
+  );
+  const getIsBookmarked = async () => {
+    // const IsBookmarkedSnapshoot = await getDocs(isBookMarkedQuery);
+    onSnapshot(isBookMarkedQuery, (snapshot)=>{
+      // console.log("getIsBookmarked");
+      if(!snapshot.empty){
+        setIsBookmarked(true);
+      }
+    })
+  }
+  const onBookmarkBtnClick = async () => {
+    const querySnapshot = await getDocs(isBookMarkedQuery);
+    if (!querySnapshot.empty) {
+      try {
+        querySnapshot.forEach((doc) => {
+          deleteDoc(doc.ref);
+        });
+        console.log("Bookmark deleted successfully");
+      } catch (error) {
+        console.error("Error deleting bookmark: ", error);
+      }
+      setIsBookmarked(false);
+    } else {
+      const newStationBookmark = {
+        bookmarkedAt: Date.now(),
+        bookmarkerId: user?.uid,
+        bookmarkedRouteId: busRouteId,
+        bookmarkedRouteName: stationList[0]?.busRouteNm[0],
+        
+      }
+      try {
+        const docRef = await addDoc(collection(dbService, "routeBookmarks"), newStationBookmark);
+        console.log("Document written with ID: ", docRef.id);
+      } catch (error) {
+        console.error("Error adding document: ", error);
+      }
+      setIsBookmarked(true);
+    }
+  }
     
   return (
     <>
-      <h1>BusRouteDetail</h1>
-      <h2>{stationList[0]?.busRouteNm[0]}</h2>
+      <div className="routeDetailHeader">
+        <h1>BusRouteDetail</h1>
+        <h2>{stationList[0]?.busRouteNm[0]}</h2>
+        <div className="bookmarkBtn" onClick={onBookmarkBtnClick}>{isBookmarked?"★":"☆"}</div>
+      </div>
       <div className="busRouteInfo">
         <div className="vertical-line">
             <div className="line"></div>
-            {busPosList.map((bus) => {
+            {busPosList?.map((bus) => {
               const percentage = getBusPosPercentage(bus);
               // console.log(percentage);
               let busId:string = bus.plainNo[0]
