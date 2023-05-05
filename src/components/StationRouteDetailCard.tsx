@@ -12,7 +12,7 @@ const StationRouteDetailCard = ({stationRouteInfo, highlightFlag}: any, ref: Ref
     const init = () => {
         for(let i=0; i<2; i++){
             let input = arrTimeInput[i];
-            if(input === "출발대기" || input === "[차고지출발] " || input === "곧 도착"){
+            if(input === "출발대기" || input === "[차고지출발] " || input === "곧 도착" || input === "운행종료"){
                 // console.log(input);
             } else {
                 // pattern을 이용해서 시간 정보를 가져오는 부분

@@ -1,6 +1,7 @@
 .busRouteInfo{
     /* background-color: black; */
     display: flex;
+    flex-direction: row;
 }
 .busRouteInfo-RouteList{
     flex: 1;
@@ -9,4 +10,37 @@
     width: 60px;
     /* background-color: black; */
     border: 1px solid tomato;
+}
+
+.busPos {
+    border: 1px solid black;
+}
+
+.line{
+    height: 100%;
+    width: 0px;
+    border: 2px solid black;
+    position: absolute;
+    left: 29px;
+}
+
+.vertical-line {
+    /* width:5px; */
+    margin: 32px 0;
+    flex: 0 1 auto;
+    /* border: 1px solid black; */
+    position: relative;
+  }
+
+.bus-pos-dot {
+    z-index: 2;
+    width: 50px;
+    height: 20px;
+    /* border-radius: 50%; */
+    border-radius: 20px;
+    border: 1px solid black;
+    left: 6px;
+    position: absolute;
+
+    background-color: aliceblue;
 }

@@ -1,4 +1,4 @@
-import { getBusPosByRouteSt } from "busApi/busPos/getBusPosByRtid";
+import { getBusPosByRtid } from "busApi/busPos/getBusPosByRtid";
 import { getRouteInfoItem } from "busApi/busRouteInfo/getRouteInfoItem";
 import { getStaionByRoute } from "busApi/busRouteInfo/getStationByRoute";
 import RouteStationDetailCard from "components/RouteStationDetailCard";
@@ -14,23 +14,28 @@ const BusRouteDetail = () => {
   const location = useLocation();
   const busRouteId = location.state.busRouteId;
   const stationId = location.state.stationId;
-  console.log("stationId: "+ stationId);
+  // console.log("stationId: "+ stationId);
 
   const stationRef = useRef<StationRef>(null);
     
   const [stationList, setStationList] = useState<Array<any>>([]);
+  const [busPosList, setBusPosList] = useState<Array<any>>([]);
   const getBusRouteList = async () => {
-    console.log("busRouteId: "+ busRouteId);
+    // console.log("busRouteId: "+ busRouteId);
     
     const routeStationList = await getStaionByRoute(busRouteId);
     // const routeStationList = routeSatationListsDummy;
     // console.log(routeStationList);
-    
-    const busPosRouteList = await getBusPosByRouteSt(busRouteId, routeStationList.length);
-    // console.log(busPosRouteList);
-    
+    await getBusPosList();
     setStationList(routeStationList);
+    
   };
+
+  const getBusPosList = async () => {
+    const busPosList = await getBusPosByRtid(busRouteId);
+    // console.log(busPosList);
+    setBusPosList(busPosList);
+  }
 
   useEffect(() => {
     // console.log(getRouteInfoItem(busRouteId));
@@ -42,9 +47,11 @@ const BusRouteDetail = () => {
       // 5초마다 실행되는 타이머
       // setLoading(true); // 로딩 상태를 true로 변경
       // getStationDetailData();
+      // getBusPosList(); //실시간 위치 반영
       console.log("timer!");
+
       
-    }, 5000); // 5000ms = 5초
+    }, 10000); // 5000ms = 5초
 
     return () => {
       // 컴포넌트가 언마운트될 때 실행되는 함수
@@ -52,6 +59,7 @@ const BusRouteDetail = () => {
       console.log("timer정리됨!");
     };
   }, []);
+
   useEffect(()=>{
     if(stationRef.current){
       // stationRef.current.scrollIntoView({ behavior: "auto" });
@@ -68,24 +76,47 @@ const BusRouteDetail = () => {
 
     }
   }, [stationList])  
+
+  //선긋기
+  const [stationCount, setStationCount] = useState(0);
+
+  useEffect(() => {
+    setStationCount(stationList.length);
+  }, [stationList]);
+
+
+  const getBusPosPercentage = (bus: any) => {
+    const stationDistance = bus.sectDist[0] / bus.fullSectDist[0];
+    return (bus.sectOrd[0] / stationCount) * 100 + stationDistance;
+  };
     
   return (
     <>
       <h1>BusRouteDetail</h1>
       <h2>{stationList[0]?.busRouteNm[0]}</h2>
       <div className="busRouteInfo">
-        <div className="busRouteInfo-busPosList">{
-          stationList.map((station)=>{
-            
-            return <div key={station.arsId[0]} style={{height:"74px"}}>a</div>;
-          })
-        }
-        </div>
+        <div className="vertical-line">
+            <div className="line"></div>
+            {busPosList.map((bus) => {
+              const percentage = getBusPosPercentage(bus);
+              // console.log(percentage);
+              let busId:string = bus.plainNo[0]
+              busId = busId.substring(busId.length-4);
+              
+              return (
+                <div
+                  key={bus.plainNo[0]}
+                  className="bus-pos-dot"
+                  style={{ top: `${percentage}%` }}
+                >{busId}</div>
+              );
+            })}
+          </div>
         <div className="busRouteInfo-RouteList">{
           stationList.map((station) => {
             const key = station.arsId[0];
             if(key===stationId){
-              console.log(station);
+              // console.log(station);
               // return <RouteStationDetailCard key={key} RouteStationInfo={station}/>;
             } 
             return <RouteStationDetailCard 
@@ -95,6 +126,7 @@ const BusRouteDetail = () => {
             ref={key===stationId ? stationRef : null} 
               />
           })}
+          
         </div>
         
       </div>

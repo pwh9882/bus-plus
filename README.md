@@ -22,9 +22,9 @@ bus-plus는 제작자가 평소 원했던 추가적인 버스도착정보 어플
         - 버스 종류에 따라 색 설정하기(푸른색, 초록색 등...) ← 디테일요소, 우선순위 낮음
     2-2. busRouteDetail
         - 기본적 api data fetch 후 화면에 뿌리기 ✅
-        - busPos Api를 활용해 Route에 버스 위치 그리기 ← 현재 목표
+        - busPos Api를 활용해 Route에 버스 위치 그리기 ✅
     2-3. 즐겨찾기 기능
-        - detail 화면에 즐겨찾기 버튼 추가
+        - detail 화면에 즐겨찾기 버튼 추가 ← 현재 목표
         - 즐겨찾기 버튼을 누르면 FirebaseDB와 연동하여 Home에 보여주기
         - Home 화면 즐겨찾기 순서 바꾸기, 즐겨찾기 해제 기능
     2-4. Search
