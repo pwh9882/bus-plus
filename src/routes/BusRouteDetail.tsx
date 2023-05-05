@@ -3,15 +3,20 @@ import { getRouteInfoItem } from "busApi/busRouteInfo/getRouteInfoItem";
 import { getStaionByRoute } from "busApi/busRouteInfo/getStationByRoute";
 import RouteStationDetailCard from "components/RouteStationDetailCard";
 import { routeSatationListsDummy } from "dummyDatas/routeSatationListsDummy";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useLocation } from "react-router-dom";
 import "css/BusRouteDetail.css";
+
+type StationRef = HTMLDivElement;
+
 
 const BusRouteDetail = () => {
   const location = useLocation();
   const busRouteId = location.state.busRouteId;
   const stationId = location.state.stationId;
   console.log("stationId: "+ stationId);
+
+  const stationRef = useRef<StationRef>(null);
     
   const [stationList, setStationList] = useState<Array<any>>([]);
   const getBusRouteList = async () => {
@@ -31,6 +36,7 @@ const BusRouteDetail = () => {
     // console.log(getRouteInfoItem(busRouteId));
     
     getBusRouteList();
+    
 
     // 컴포넌트가 마운트될 때 실행되는 함수
     const timer = setInterval(() => {
@@ -47,6 +53,23 @@ const BusRouteDetail = () => {
       console.log("timer정리됨!");
     };
   }, []);
+  useEffect(()=>{
+    if(stationRef.current){
+      // stationRef.current.scrollIntoView({ behavior: "auto" });
+      // stationRef.current.scrollIntoView({ behavior: "auto", block: "center" });
+
+      // stationRef.current의 상단 위치를 구함
+      const elementTop = stationRef.current.getBoundingClientRect().top + window.pageYOffset;
+      // window의 높이를 구함
+      const windowHeight = window.innerHeight;
+      // element가 중앙보다 살짝 위인 3분의 2지점으로 스크롤하려면, elementTop에서 windowHeight의 1/6을 빼줌
+      const offset = elementTop - windowHeight / 6;
+      // window.scrollTo 메서드로 스크롤
+      window.scrollTo({ top: offset, behavior: "smooth" });
+
+    }
+  }, [stationList])  
+    
   return (
     <>
       <h1>BusRouteDetail</h1>
@@ -66,7 +89,12 @@ const BusRouteDetail = () => {
               console.log(station);
               // return <RouteStationDetailCard key={key} RouteStationInfo={station}/>;
             } 
-            return <RouteStationDetailCard key={key} highlightFlag={key===stationId} RouteStationInfo={station}/>;
+            return <RouteStationDetailCard 
+            key={key} 
+            highlightFlag={key===stationId} 
+            routeStationInfo={station}
+            ref={key===stationId ? stationRef : null} 
+              />
           })}
         </div>
         

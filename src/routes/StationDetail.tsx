@@ -2,14 +2,15 @@ import { getRouteByStation } from "busApi/stationInfo/getRouteByStation";
 import { getStationByName } from "busApi/stationInfo/getStationByNameList";
 import { getStationByUid } from "busApi/stationInfo/getStationByUid";
 import StationRouteDetailCard from "components/StationRouteDetailCard";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useLocation } from "react-router-dom";
 
 const StationDetail = () => {
   const location = useLocation();
   const uid = location.state.stationUid;
-  const [fetchData, setFetchData] = useState<any | null>("");
-  const [routeList, setRouteList] = useState<Array<string>>([]);
+  const busRouteId = location.state.busRouteId;
+
+  const routeRef = useRef<HTMLDivElement>(null);
 
   const [stationInfo, setStationInfo]=useState<Array<any>>([]);
   const [loading, setLoading] = useState<boolean>(true);
@@ -44,6 +45,22 @@ const StationDetail = () => {
       console.log("정리됨!");
     };
   }, []);
+  useEffect(()=>{
+    if(routeRef.current){
+      // stationRef.current.scrollIntoView({ behavior: "auto" });
+      // stationRef.current.scrollIntoView({ behavior: "auto", block: "center" });
+
+      // stationRef.current의 상단 위치를 구함
+      const elementTop = routeRef.current.getBoundingClientRect().top + window.pageYOffset;
+      // window의 높이를 구함
+      const windowHeight = window.innerHeight;
+      // element가 중앙보다 살짝 위인 3분의 2지점으로 스크롤하려면, elementTop에서 windowHeight의 1/6을 빼줌
+      const offset = elementTop - windowHeight / 6;
+      // window.scrollTo 메서드로 스크롤
+      window.scrollTo({ top: offset, behavior: "smooth" });
+
+    }
+  },[stationInfo])
   
   return (
     <>
@@ -55,7 +72,14 @@ const StationDetail = () => {
       <h3>{stationInfo[0]?.nxtStn[0]} 방면</h3>
       <div>
         {stationInfo.map((route)=>{
-          return <StationRouteDetailCard key={route.busRouteAbrv[0]} stationRouteInfo={route}/>
+          const isOrigin = route.busRouteId[0] === busRouteId;
+          
+          
+          return <StationRouteDetailCard
+           key={route.busRouteAbrv[0]} 
+           highlightFlag={isOrigin} 
+           ref={isOrigin ? routeRef : null} 
+           stationRouteInfo={route}/>
         })}
       </div></>}
     </>
