@@ -16,6 +16,8 @@ bus-plus는 제작자가 평소 원했던 추가적인 버스도착정보 어플
 
 2. api를 이용해 기존 버스도착정보 어플 기능 구현
     2-1. stationDetail
+        - 기본적 api data fetch후 화면에 뿌리기 ✅
+        - 버스 도착 예정시간 카운터 적용하기 ← 현재 작업중 ⚠️
     2-2. busRouteDetail
 
 3. bus-plus만의 기능 구현

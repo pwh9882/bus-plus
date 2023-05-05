@@ -74,7 +74,6 @@ const StationDetail = () => {
         {stationInfo.map((route)=>{
           const isOrigin = route.busRouteId[0] === busRouteId;
           
-          
           return <StationRouteDetailCard
            key={route.busRouteAbrv[0]} 
            highlightFlag={isOrigin} 
