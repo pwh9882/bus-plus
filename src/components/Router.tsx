@@ -28,10 +28,10 @@ const AppRouter = ({ isLoggedIn, user }: Props) => {
       <Routes>
         {isLoggedIn ? (
           <>
-            <Route path="/" element={<Home />} />
+            <Route path="/" element={<Home user={user}/>} />
             <Route path="/search" element={<Search />} />
             <Route path="/profile" element={<Profile />} />
-            <Route path="/station-detail" element={<StationDetail />} />
+            <Route path="/station-detail" element={<StationDetail user={user}/>} />
             <Route path="/bus-route-detail" element={<BusRouteDetail />} />
           </>
         ) : (

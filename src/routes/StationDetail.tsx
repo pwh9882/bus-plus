@@ -1,26 +1,26 @@
-import { getRouteByStation } from "busApi/stationInfo/getRouteByStation";
-import { getStationByName } from "busApi/stationInfo/getStationByNameList";
 import { getStationByUid } from "busApi/stationInfo/getStationByUid";
 import StationRouteDetailCard from "components/StationRouteDetailCard";
 import { useEffect, useRef, useState } from "react";
 import { useLocation } from "react-router-dom";
+import "css/StationDetail.css";
+import { User } from "firebase/auth";
+import { addDoc, collection, deleteDoc, doc, getDocs, onSnapshot, orderBy, query, where } from "firebase/firestore";
+import { dbService } from "FirebaseApp";
+interface Props{
+  user:User|null;
+}
 
-const StationDetail = () => {
+const StationDetail = ({user}:Props) => {
   const location = useLocation();
-  const uid = location.state.stationUid;
+  const stationUid = location.state.stationUid;
   const busRouteId = location.state.busRouteId;
+  const [isBookmarked, setIsBookmarked] = useState(false);
 
   const routeRef = useRef<HTMLDivElement>(null);
 
   const [stationInfo, setStationInfo]=useState<Array<any>>([]);
-  const [loading, setLoading] = useState<boolean>(true);
   const getStationDetailData = async () => {
-    
-    // console.log("UID: " + uid);
-    
-    let info = await getStationByUid(uid);
-    // console.log(info);
-    setLoading(false);
+    let info = await getStationByUid(stationUid);
     if (info!==undefined){
       setStationInfo(info)
     } else {
@@ -29,6 +29,7 @@ const StationDetail = () => {
   };
   // console.log(stationInfo[0]);
   useEffect(() => {
+    getIsBookmarked();
     getStationDetailData();
     // 컴포넌트가 마운트될 때 실행되는 함수
     // const timer = setInterval(() => {
@@ -61,16 +62,61 @@ const StationDetail = () => {
 
     }
   },[stationInfo])
+
+  const isBookMarkedQuery = query(
+    collection(dbService, "stationBookmarks"),
+    where("bookmarkerId", "==", user?.uid),
+    where("bookmarkedStationUid", "==", stationUid)
+  );
+  const getIsBookmarked = async () => {
+    // const IsBookmarkedSnapshoot = await getDocs(isBookMarkedQuery);
+    onSnapshot(isBookMarkedQuery, (snapshot)=>{
+      // console.log("getIsBookmarked");
+      if(!snapshot.empty){
+        setIsBookmarked(true);
+      }
+    })
+  }
+  const onBookmarkBtnClick = async () => {
+    const querySnapshot = await getDocs(isBookMarkedQuery);
+    if (!querySnapshot.empty) {
+      try {
+        querySnapshot.forEach((doc) => {
+          deleteDoc(doc.ref);
+        });
+        console.log("Bookmark deleted successfully");
+      } catch (error) {
+        console.error("Error deleting bookmark: ", error);
+      }
+      setIsBookmarked(false);
+    } else {
+      const newStationBookmark = {
+        bookmarkedAt: Date.now(),
+        bookmarkerId: user?.uid,
+        bookmarkedStationUid: stationUid,
+        bookmarkedStationName: stationInfo[0]?.stNm[0],
+        bookmarkedStationNextSt: stationInfo[0]?.nxtStn[0]
+      }
+      try {
+        const docRef = await addDoc(collection(dbService, "stationBookmarks"), newStationBookmark);
+        console.log("Document written with ID: ", docRef.id);
+      } catch (error) {
+        console.error("Error adding document: ", error);
+      }
+      setIsBookmarked(true);
+    }
+  }
   
   return (
     <>
-      <h1>StationDetail</h1>
-      <h4>{uid}</h4>
-      
-      {stationInfo.length === 0 ? <h1>StationDetail</h1> : <h2>{stationInfo[0]?.stNm[0]}</h2>}
-      {loading ? <div>로딩중...</div> : <>
-      <h3>{stationInfo[0]?.nxtStn[0]} 방면</h3>
-      <div>
+      <div className="stationDetailHeader">
+        <h1>StationDetail</h1>
+        <h3>{stationUid}</h3>
+        <h2>{stationInfo[0]?.stNm[0]}</h2>
+        <h3>{stationInfo[0]?.nxtStn[0]} 방면</h3>
+        <div className="bookmarkBtn" onClick={onBookmarkBtnClick}>{isBookmarked?"★":"☆"}</div>
+      </div>
+      <div className="routeList">
         {stationInfo.map((route)=>{
           const isOrigin = route.busRouteId[0] === busRouteId;
           // console.log(route);
@@ -81,7 +127,7 @@ const StationDetail = () => {
            ref={isOrigin ? routeRef : null} 
            stationRouteInfo={route}/>
         })}
-      </div></>}
+      </div>
     </>
   );
 };

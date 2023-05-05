@@ -1,0 +1,21 @@
+.stationDetailHeader{
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 10px;
+    border-radius: 10px;
+    border: 1px solid black;
+}
+
+.bookmarkBtn{
+    border-radius: 26px;
+    border: 1px solid black;
+    width: 26px;
+    height: 26px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 10px auto;
+    user-select: none;
+    background-color: #282c34;
+    color: gold;
+}
