@@ -1,8 +1,12 @@
 .search-bar {
     margin-top: 15px;
     display: flex;
+    justify-content: center;
+    /* align-items:center; */
 }
 
-.search-bar > input {
+
+.searchText{
     flex-grow: 1;
+    margin: 0px;
 }

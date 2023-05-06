@@ -10,6 +10,7 @@ interface Props{
   user:User|null
 }
 const Home = ({user}:Props) => {
+  
   const [userStationBookmarkedList, setUserStationBookmarkedList] = useState<Array<DocumentData>>([]);
   const [userRouteBookmarkedList, setUserRouteBookmarkedList] = useState<Array<DocumentData>>([]);
   const bookMarkedStationsQuery = query(
@@ -78,6 +79,7 @@ const Home = ({user}:Props) => {
           />
         })}
       </div>
+      
     </div>
   );
 };

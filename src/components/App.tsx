@@ -3,6 +3,8 @@ import "css/App.css";
 import AppRouter from "components/Router";
 import { User, onAuthStateChanged } from "firebase/auth";
 import { useEffect, useState } from "react";
+import { BrowserRouter as Router, } from "react-router-dom";
+
 
 
 function App() {
@@ -23,20 +25,25 @@ function App() {
     });
   }, []);
 
-  return (
+  return (<>
     <div className="App">
       <header className="App-header">
         <h1>bus-plus</h1>
       </header>
       {init ? (
         <div className="App-router">
-          <AppRouter isLoggedIn={isLoggedIn} user={user} />
+          <Router children->
+            <AppRouter isLoggedIn={isLoggedIn} user={user} />
+          </Router>
         </div>
       ) : (
         <h1>loading...</h1>
       )}
       {/* <footer>Foot</footer> */}
+      
     </div>
+    
+    </>
   );
 }
 

@@ -1,18 +1,26 @@
 import {
-  BrowserRouter as Router,
+  
   Routes,
   Route,
   Navigate,
   useLocation,
+  useNavigate,
 } from "react-router-dom";
 import Auth from "routes/Auth";
 import Home from "routes/Home";
 import Profile from "routes/Profile";
-import NavigationBar from "./NavigationBar";
 import Search from "routes/Search";
 import BusRouteDetail from "routes/BusRouteDetail";
 import StationDetail from "routes/StationDetail";
 import { User } from "firebase/auth";
+
+
+
+import { BottomNavigation, BottomNavigationAction, Paper } from "@mui/material";
+import HomeIcon from '@mui/icons-material/Home';
+import SearchIcon from '@mui/icons-material/Search';
+import AccountBoxIcon from '@mui/icons-material/AccountBox';
+import { useEffect, useState } from "react";
 
 interface Props {
   isLoggedIn: boolean,
@@ -20,11 +28,26 @@ interface Props {
 }
 
 const AppRouter = ({ isLoggedIn, user }: Props) => {
-  return (
-    <Router>
-      {/* <header></header> */}
+  const [navOption, setNavOption] = useState(0)
+  const navigate = useNavigate();
+  const location = useLocation();
 
-      {isLoggedIn && <NavigationBar user={user} />}
+  useEffect(()=>{
+    if(location.pathname === "/"){
+      setNavOption(0);
+    }
+    else if(location.pathname === "/search"){
+      setNavOption(1);
+    }
+    else if(location.pathname === "/profile"){
+      setNavOption(2);
+    } else {
+      setNavOption(-1);
+    }
+  },[location])
+  return (
+    <>
+      {/* <NavigationBar user={user} /> */}
       <Routes>
         {isLoggedIn ? (
           <>
@@ -40,7 +63,34 @@ const AppRouter = ({ isLoggedIn, user }: Props) => {
 
         <Route path="*" element={<Navigate to={"/"} replace={true} />} />
       </Routes>
-    </Router>
+      {isLoggedIn && 
+      // (location.pathname === "/" || location.pathname === "/search" || location.pathname === "/profile") &&
+      <Paper sx={{ position: 'fixed', bottom: 0, left: 0, right: 0, zIndex:3}} elevation={3}>
+       <BottomNavigation
+        showLabels
+        value={navOption}
+        onChange={(event, newValue) => {
+          setNavOption(newValue);
+          // console.log(newValue);
+          if(newValue===0){
+            navigate("/")
+          }
+          if(newValue===1){
+            navigate("/search")
+          }
+          if(newValue===2){
+            navigate("/profile")
+          }
+          
+        }}
+      >
+        <BottomNavigationAction label="Home" icon={<HomeIcon />} />
+        <BottomNavigationAction label="Search" icon={<SearchIcon />} />
+        <BottomNavigationAction label="Account" icon={<AccountBoxIcon />} />
+      </BottomNavigation>
+      </Paper>}
+      
+      </>
   );
 };
 
