@@ -52,9 +52,7 @@ const BusRouteDetail = ({user}:Props) => {
     // 컴포넌트가 마운트될 때 실행되는 함수
     const timer = setInterval(() => {
       // 5초마다 실행되는 타이머
-      // setLoading(true); // 로딩 상태를 true로 변경
-      // getStationDetailData();
-      // getBusPosList(); //실시간 위치 반영
+      getBusPosList(); //실시간 위치 반영
       console.log("timer!");
     }, 10000); // 5000ms = 5초
 

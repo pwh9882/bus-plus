@@ -32,19 +32,19 @@ const StationDetail = ({user}:Props) => {
     getIsBookmarked();
     getStationDetailData();
     // 컴포넌트가 마운트될 때 실행되는 함수
-    // const timer = setInterval(() => {
-    //   // 5초마다 실행되는 타이머
-    //   // setLoading(true); // 로딩 상태를 true로 변경
-    //   getStationDetailData();
-    //   console.log("Timer!");
+    const timer = setInterval(() => {
+      // 5초마다 실행되는 타이머
+      // setLoading(true); // 로딩 상태를 true로 변경
+      getStationDetailData();
+      console.log("Timer!");
       
-    // }, 10000); // 5000ms = 5초
+    }, 10000); // 5000ms = 5초
 
-    // return () => {
-    //   // 컴포넌트가 언마운트될 때 실행되는 함수
-    //   clearInterval(timer); // 타이머 정리
-    //   console.log("정리됨!");
-    // };
+    return () => {
+      // 컴포넌트가 언마운트될 때 실행되는 함수
+      clearInterval(timer); // 타이머 정리
+      console.log("정리됨!");
+    };
   }, []);
   useEffect(()=>{
     if(routeRef.current){

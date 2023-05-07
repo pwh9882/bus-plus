@@ -147,8 +147,8 @@ const PlusEstimateArrivalTime = () => {
         const timer = setInterval(() => {
             setArrTimer();
             // console.log("Timer!");
-            
-          }, 1000); // 5000ms = 5초
+            refreshLeftTime();
+          }, 10000); // 5000ms = 5초
       
           return () => {
             // 컴포넌트가 언마운트될 때 실행되는 함수
