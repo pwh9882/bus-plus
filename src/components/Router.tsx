@@ -21,6 +21,7 @@ import HomeIcon from '@mui/icons-material/Home';
 import SearchIcon from '@mui/icons-material/Search';
 import AccountBoxIcon from '@mui/icons-material/AccountBox';
 import { useEffect, useState } from "react";
+import PlusEstimateArrivalTime from "routes/plusEstimateArrivalTime";
 
 interface Props {
   isLoggedIn: boolean,
@@ -56,6 +57,7 @@ const AppRouter = ({ isLoggedIn, user }: Props) => {
             <Route path="/profile" element={<Profile />} />
             <Route path="/station-detail" element={<StationDetail user={user}/>} />
             <Route path="/bus-route-detail" element={<BusRouteDetail user={user} />} />
+            <Route path="/plus-estimate-arrival-time" element={<PlusEstimateArrivalTime/>}/>
           </>
         ) : (
           <Route  path="/" element={<Auth />} />

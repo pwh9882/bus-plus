@@ -6,7 +6,7 @@ import { routeSatationListsDummy } from "dummyDatas/routeSatationListsDummy";
 import { useEffect, useRef, useState } from "react";
 import { useLocation } from "react-router-dom";
 import "css/BusRouteDetail.css";
-import { addDoc, collection, deleteDoc, getDocs, onSnapshot, query, where } from "firebase/firestore";
+import { DocumentData, addDoc, collection, deleteDoc, getDocs, onSnapshot, query, where } from "firebase/firestore";
 import { dbService } from "FirebaseApp";
 import { User } from "firebase/auth";
 
@@ -20,11 +20,12 @@ const BusRouteDetail = ({user}:Props) => {
   const busRouteId = location.state.busRouteId;
   const stationId = location.state.stationId;
   const [isBookmarked, setIsBookmarked] = useState(false);
+  let selectedStationIndex:number=999999;
   // console.log("stationId: "+ stationId);
 
   const stationRef = useRef<StationRef>(null);
-    
-  const [stationList, setStationList] = useState<Array<any>>([]);
+  
+  const [stationList, setStationList] = useState<Array<DocumentData>>([]);
   const [busPosList, setBusPosList] = useState<Array<any>>([]);
   const getBusRouteList = async () => {
     // console.log("busRouteId: "+ busRouteId);
@@ -39,7 +40,7 @@ const BusRouteDetail = ({user}:Props) => {
 
   const getBusPosList = async () => {
     const busPosList = await getBusPosByRtid(busRouteId);
-    // console.log(busPosList);
+    console.log(busPosList);
     setBusPosList(busPosList);
   }
 
@@ -55,8 +56,6 @@ const BusRouteDetail = ({user}:Props) => {
       // getStationDetailData();
       // getBusPosList(); //실시간 위치 반영
       console.log("timer!");
-
-      
     }, 10000); // 5000ms = 5초
 
     return () => {
@@ -84,16 +83,9 @@ const BusRouteDetail = ({user}:Props) => {
   }, [stationList])  
 
   //선긋기
-  const [stationCount, setStationCount] = useState(0);
-
-  useEffect(() => {
-    setStationCount(stationList.length);
-  }, [stationList]);
-
-
   const getBusPosPercentage = (bus: any) => {
     const stationDistance = bus.sectDist[0] / bus.fullSectDist[0];
-    return (bus.sectOrd[0] / stationCount) * 100 + stationDistance;
+    return (bus.sectOrd[0] / stationList.length) * 100 + stationDistance;
   };
 
   const isBookMarkedQuery = query(
@@ -169,13 +161,24 @@ const BusRouteDetail = ({user}:Props) => {
           stationList.map((station) => {
             const key = station.arsId[0];
             if(key===stationId){
-              // console.log(station);
-              // return <RouteStationDetailCard key={key} RouteStationInfo={station}/>;
-            } 
+              selectedStationIndex = stationList.indexOf(station)
+              // console.log(selectedStationIndex);
+            }
+            if(selectedStationIndex<stationList.indexOf(station)){
+              // console.log("after: " + station.stationNm[0]);
+              
+            }
             return <RouteStationDetailCard 
             key={key} 
-            highlightFlag={key===stationId} 
+            highlightFlag={key===stationId}
+            isAfterStartStation={
+              selectedStationIndex<stationList.indexOf(station)
+            }
+            busRouteId={busRouteId}
+            stationList={stationList}
             routeStationInfo={station}
+            startStationId={stationId}
+            startStationIndex={selectedStationIndex}
             ref={key===stationId ? stationRef : null} 
               />
           })}
