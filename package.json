@@ -1,6 +1,6 @@
 {
   "name": "bus-plus",
-  "version": "0.1.0",
+  "version": "0.5.0",
   "private": true,
   "dependencies": {
     "@emotion/react": "^11.10.8",
@@ -18,6 +18,7 @@
     "@types/react-dom": "^18.2.1",
     "buffer": "^6.0.3",
     "firebase": "^9.19.1",
+    "gh-pages": "^5.0.0",
     "http-proxy-middleware": "^2.0.6",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
@@ -33,7 +34,9 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
   },
   "eslintConfig": {
     "extends": [
@@ -53,5 +56,6 @@
       "last 1 safari version"
     ]
   },
-  "proxy": "http://ws.bus.go.kr"
+  "proxy": "http://ws.bus.go.kr",
+  "homepage": "https://pwh9882.github.io/bus-plus"
 }
