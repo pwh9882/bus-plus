@@ -53,7 +53,7 @@ export interface StationRouteStatus {
 export const getStationByUid = async (arsId: string): Promise<Array<StationRouteStatus> > => {
   
     const api =
-    `api/rest/stationinfo/getStationByUid?serviceKey=${process.env.REACT_APP_BUS_API_KEY}&arsId=${arsId}`;
+    `https://bus-plus-proxy.fly.dev/api/rest/stationinfo/getStationByUid?serviceKey=${process.env.REACT_APP_BUS_API_KEY}&arsId=${arsId}`;
     const xmlRowText = await (await fetch(api, {})).text();
     // console.log(xmlRowText);
     let resultArray = (await parseXml(xmlRowText)).ServiceResult.msgBody[0]?.itemList;

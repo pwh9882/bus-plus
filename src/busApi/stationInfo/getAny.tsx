@@ -1,7 +1,7 @@
 export const getStationInfo = async (opration: string): Promise<string> => {
     
     const api =
-    `api/rest/stationinfo/${opration}?serviceKey=${process.env.REACT_APP_BUS_API}&stId=`;
+    `https://bus-plus-proxy.fly.dev/api/rest/stationinfo/${opration}?serviceKey=${process.env.REACT_APP_BUS_API}&stId=`;
     // const xmlRowText = await (await fetch(`${api}${}`, {})).text();
     // // console.log(`${api}${statationId}`);
     // const domParser = new DOMParser();

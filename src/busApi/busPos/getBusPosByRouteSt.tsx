@@ -20,7 +20,7 @@ export interface BusInfo {
 export const getBusPosByRouteSt = async (busRouteId: string, startOrd: string, endOrd:string): Promise<Array<BusInfo> > => {
   
     const api =
-    `api/rest/buspos/getBusPosByRouteSt?serviceKey=${process.env.REACT_APP_BUS_API_KEY}&busRouteId=${busRouteId}&startOrd=${startOrd}&endOrd=${endOrd}`;
+    `https://bus-plus-proxy.fly.dev/api/rest/buspos/getBusPosByRouteSt?serviceKey=${process.env.REACT_APP_BUS_API_KEY}&busRouteId=${busRouteId}&startOrd=${startOrd}&endOrd=${endOrd}`;
     // console.log(api);
     
     const xmlRowText = await (await fetch(api, {})).text();

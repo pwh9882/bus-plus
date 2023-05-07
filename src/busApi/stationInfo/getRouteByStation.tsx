@@ -1,7 +1,7 @@
 export const getRouteByStation = async (stationId: string): Promise<string> => {
     
     const api =
-    `api/rest/stationinfo/getRouteByStation?serviceKey=${process.env.REACT_APP_BUS_API_KEY}&stId=`;
+    `https://bus-plus-proxy.fly.dev/api/rest/stationinfo/getRouteByStation?serviceKey=${process.env.REACT_APP_BUS_API_KEY}&stId=`;
     const xmlRowText = await (await fetch(`${api}${stationId}`, {})).text();
     // console.log(`${api}${statationId}`);
     const domParser = new DOMParser();
