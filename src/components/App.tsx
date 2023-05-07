@@ -32,7 +32,7 @@ function App() {
       </header>
       {init ? (
         <div className="App-router">
-          <Router basename={"/"} children->
+          <Router basename={process.env.PUBLIC_URL}children->
             <AppRouter isLoggedIn={isLoggedIn} user={user} />
           </Router>
         </div>
