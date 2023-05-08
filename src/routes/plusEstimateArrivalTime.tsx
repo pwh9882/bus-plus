@@ -33,7 +33,7 @@ const PlusEstimateArrivalTime = () => {
         setUserBus(userBus)
     }
     
-    const getBusPosInRoute = async () => {
+    const getleftTime = async () => {
         await getUserBus()
         const list= await getBusPosByRouteSt(busRouteId, startOrd, endOrd)
         // console.log("list", list);
@@ -67,14 +67,14 @@ const PlusEstimateArrivalTime = () => {
             // setLeftTime("3번째 이상!")
             console.log("3이상");
             
-            await refreshLeftTime();
+            await advancedleftTime();
         }
         // console.log("arrTimeInt", arrTimeInt);
         
     }
     
 
-    const refreshLeftTime = async () => {
+    const advancedleftTime = async () => {
         // userBus를 가지고 endOrd 정거장까지 거리 찾기
         // userBus는 무조건 startOrd 직전버스
         let sumTime = "";
@@ -100,18 +100,18 @@ const PlusEstimateArrivalTime = () => {
             let curr2thBus = busPosList[busPosIndex]
             let curr2thTime = currOrdStation?.arrmsgSec2[0]
 
-            // sumTime += curr2thTime;
+            sumTime += curr2thTime;
             sumSec += parseArrmsg(curr2thTime!);
             currOrd = parseInt(curr2thBus.sectOrd[0])+1;
 
             // let curr1thBus = curr2thBus;
             currOrdStation = await getStationByUidwithRouteId(stationList[currOrd].arsId[0], busRouteId)
             let curr1thTime = currOrdStation?.arrmsgSec1[0];
-            // sumTime += `-${curr1thTime}`
+            sumTime += `-${curr1thTime}`
             sumSec += parseArrmsg(curr1thTime!);
         }
         let curr2thTime = currOrdStation?.arrmsgSec2[0];
-        // sumTime += curr2thTime;
+        sumTime += curr2thTime;
         sumSec += parseArrmsg(curr2thTime!);
         // console.log("busPosList",busPosList);
         
@@ -120,7 +120,7 @@ const PlusEstimateArrivalTime = () => {
             sumSec = parseArrmsg(currOrdStation?.arrmsgSec1[0]!);
         }
 
-        // console.log("sumTime", sumTime);
+        console.log("sumTime", sumTime);
         // console.log("sumSec: ", sumSec);
         arrTimeInt = sumSec;
         arrLeftSt = busPosList.length+1
@@ -138,25 +138,33 @@ const PlusEstimateArrivalTime = () => {
                 let sec = (arrTimeInt%60)
                 if(hour) temp += `${hour}시간 `;
                 if(min) temp += `${min}분 `;
-                temp += `${sec}초 후 도착 [${arrLeftSt}번째 전]`
+                temp += `${sec}초 후 도착`
             }
         setLeftTime(temp);
     }
 
     useEffect(()=>{
-        getBusPosInRoute()
+        getleftTime()
         // refreshLeftTime()
+        setArrTimer();
         const timer = setInterval(() => {
             setArrTimer();
-            // console.log("Timer!");
+            // console.log("Timer1!");
             // refreshLeftTime();
+          }, 1000); // 5000ms = 5초
+          const timer2 = setInterval(() => {
+            console.log("Timer2!");
+            // advancedleftTime();
+            getleftTime();
           }, 10000); // 5000ms = 5초
       
-          return () => {
+        return () => {
             // 컴포넌트가 언마운트될 때 실행되는 함수
             clearInterval(timer); // 타이머 정리
+            clearInterval(timer2);
             // console.log("sec정리됨!");
-          };
+        };
+          
     },[])
     return <>
         <h1>{routeName}</h1>
