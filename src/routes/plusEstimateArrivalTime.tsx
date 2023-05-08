@@ -65,6 +65,8 @@ const PlusEstimateArrivalTime = () => {
             })
         } else {
             // setLeftTime("3번째 이상!")
+            console.log("3이상");
+            
             await refreshLeftTime();
         }
         // console.log("arrTimeInt", arrTimeInt);
@@ -147,7 +149,7 @@ const PlusEstimateArrivalTime = () => {
         const timer = setInterval(() => {
             setArrTimer();
             // console.log("Timer!");
-            refreshLeftTime();
+            // refreshLeftTime();
           }, 10000); // 5000ms = 5초
       
           return () => {

@@ -3,7 +3,7 @@ import "css/App.css";
 import AppRouter from "components/Router";
 import { User, onAuthStateChanged } from "firebase/auth";
 import { useEffect, useState } from "react";
-import { BrowserRouter as Router, } from "react-router-dom";
+import { HashRouter as Router, } from "react-router-dom";
 
 
 
@@ -32,7 +32,7 @@ function App() {
       </header>
       {init ? (
         <div className="App-router">
-          <Router basename={process.env.PUBLIC_URL}children->
+          <Router basename="/">
             <AppRouter isLoggedIn={isLoggedIn} user={user} />
           </Router>
         </div>

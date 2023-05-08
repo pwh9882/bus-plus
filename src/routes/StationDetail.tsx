@@ -35,7 +35,7 @@ const StationDetail = ({user}:Props) => {
     const timer = setInterval(() => {
       // 5초마다 실행되는 타이머
       // setLoading(true); // 로딩 상태를 true로 변경
-      getStationDetailData();
+      // getStationDetailData();
       console.log("Timer!");
       
     }, 10000); // 5000ms = 5초
