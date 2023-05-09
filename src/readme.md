@@ -16,6 +16,8 @@ API_KEY를 가리기 위해 .env파일을 사용했습니다.
 
 ## busApi 폴더 설명
 
+[[src/busApi]](/src/busApi/)
+
 [공공데이터 포털](https://www.data.go.kr/index.do)에서 데이터를 가져오는 함수들을 정의했습니다.
 
 [서울특별시_정류소정보조회 서비스](https://www.data.go.kr/tcs/dss/selectApiDataDetailView.do?publicDataPk=15000303)
@@ -29,7 +31,7 @@ API_KEY를 가리기 위해 .env파일을 사용했습니다.
 
 페이지 이동 후 그려지는 route component들을 작성했습니다.
 기획에서 그렸던 페이지 flowchat에 맞게 구현했습니다.
-[src/routes](/src/routes)
+[[src/routes]](/src/routes)
 
 ## components 폴더 설명
 
