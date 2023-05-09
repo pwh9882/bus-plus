@@ -34,4 +34,5 @@ API_KEY를 가리기 위해 .env파일을 사용했습니다.
 ## components 폴더 설명
 
 route가 아닌 compoent들을 작성한 폴더입니다.
+
 [[/src/components/readme.md]](/src/components/readme.md)
